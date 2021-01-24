@@ -127,7 +127,10 @@ void init_card(void)
 void release_card(void)
 {
 #if defined(__APPLE__) && defined(__MACH__)
-    pci_cleanup(pacc);
+    if (pacc != NULL)
+    {
+        pci_cleanup(pacc);
+    }
 #else
 	if (dev.mem != NULL)
 		munmap(dev.mem, dev.ops->mmap_size);
