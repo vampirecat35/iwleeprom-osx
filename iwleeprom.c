@@ -545,8 +545,10 @@ void search_card(void)
 				ids = (struct pcidev*) realloc(ids, (cnt+1)*sizeof(id));
 			ids[cnt].device = (char*) malloc(256 * sizeof(char));
 			ids[cnt].class = id.class;
-			ids[cnt].ven = id.ven; ids[cnt].sven = id.sven;
-			ids[cnt].dev = id.dev; ids[cnt].sdev = id.sdev;
+			ids[cnt].ven = id.ven;
+            ids[cnt].sven = id.sven;
+			ids[cnt].dev = id.dev;
+            ids[cnt].sdev = id.sdev;
 			ids[cnt].idx = id.idx;
 			ids[cnt].ops = id.ops;
 			memcpy(ids[cnt].device, id.device, 256);
@@ -577,11 +579,25 @@ void search_card(void)
 	dev.device = (char*) malloc(256 * sizeof(char));
 	memcpy(dev.device, ids[i].device, 256);
 
+#if defined(__APPLE__) && defined(__MACH__)
+    memcpy(dev.config, ids[i].config, sizeof(dev.config));
+
+    dev.pcidev = ids[i].pcidev;
+    dev.ops = ids[i].ops;
+    dev.class = ids[i].class;
+    dev.ven = ids[i].ven;
+    dev.dev = ids[i].dev;
+    dev.sven = ids[i].sven;
+    dev.sdev = ids[i].sdev;
+    dev.idx = ids[i].idx;
+#endif
+
 out:
 	free(id.device);
 	for (i=0; i<cnt; i++) free(ids[i].device);
 	free(ids);
 	return;
+
 nodev:
 	free(id.device);
 	exit(1);
