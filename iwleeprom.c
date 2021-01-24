@@ -503,6 +503,10 @@ void search_card(void)
             ids[cnt].sdev = id.sdev;
             ids[cnt].idx = id.idx;
             ids[cnt].ops = dev.ops;
+#if defined(__APPLE__) && defined(__MACH__)
+            ids[cnt].pcidev = id.pcidev;
+            memcpy(ids[cnt].config, id.config, sizeof(ids[cnt].config));
+#endif
             memcpy(ids[cnt].device, id.device, 256);
             cnt++;
         }
