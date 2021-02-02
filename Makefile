@@ -1,6 +1,7 @@
-SBINDIR=/usr/local/sbin
+SBINDIR=/usr/local/bin
 MANDIR=/usr/share/man/man8
 OBJDIR=obj
+CFLAGS=-mmacosx-version-min=10.9 -Os
 
 all: $(OBJDIR) iwleeprom iwleeprom.8.gz
 
@@ -12,6 +13,7 @@ $(OBJDIR):
 
 iwleeprom: $(OBJDIR)/iwlio.o $(OBJDIR)/ath5kio.o $(OBJDIR)/ath9kio.o $(OBJDIR)/iwleeprom.o
 		gcc -gdwarf -Wall $(CFLAGS) -o iwleeprom $(OBJDIR)/iwleeprom.o $(OBJDIR)/iwlio.o $(OBJDIR)/ath5kio.o $(OBJDIR)/ath9kio.o -lpci -lz -lDirectHW -framework IOKit
+		dsymutil iwleeprom
 
 $(OBJDIR)/iwleeprom.o: iwleeprom.h iwlio.h ath5kio.h ath9kio.h iwleeprom.c
 		gcc -gdwarf -Wall $(CFLAGS) -c -o $(OBJDIR)/iwleeprom.o iwleeprom.c

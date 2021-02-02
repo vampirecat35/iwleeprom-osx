@@ -495,17 +495,17 @@ void search_card(void)
                 ids = (struct pcidev *)malloc(sizeof(id));
             else
                 ids = (struct pcidev*)realloc(ids, (cnt+1)*sizeof(id));
-            ids[cnt].device = (char *)malloc(256);
+            ids[cnt].device = (char *)malloc(256 * sizeof(char));
+            memcpy(ids[cnt].config, id.config, sizeof(ids[cnt].config));
+            memcpy(ids[cnt].device, id.device, (256 * sizeof(char)));
             ids[cnt].class = id.class;
             ids[cnt].ven = id.ven;
             ids[cnt].sven = id.sven;
             ids[cnt].dev = id.dev;
             ids[cnt].sdev = id.sdev;
             ids[cnt].idx = id.idx;
-            ids[cnt].ops = dev.ops;
+            ids[cnt].ops = id.ops;
             ids[cnt].pcidev = id.pcidev;
-            memcpy(ids[cnt].config, id.config, sizeof(ids[cnt].config));
-            memcpy(ids[cnt].device, id.device, 256);
             cnt++;
         }
     } while ((pacc->devices = pacc->devices->next) != NULL);
@@ -546,12 +546,12 @@ void search_card(void)
 			ids[cnt].device = (char*) malloc(256 * sizeof(char));
 			ids[cnt].class = id.class;
 			ids[cnt].ven = id.ven;
-            ids[cnt].sven = id.sven;
+            		ids[cnt].sven = id.sven;
 			ids[cnt].dev = id.dev;
-            ids[cnt].sdev = id.sdev;
+			ids[cnt].sdev = id.sdev;
 			ids[cnt].idx = id.idx;
 			ids[cnt].ops = id.ops;
-			memcpy(ids[cnt].device, id.device, 256);
+			memcpy(ids[cnt].device, id.device, (256 * sizeof(char)));
 			cnt++;
 		}
 	}
@@ -576,20 +576,20 @@ void search_card(void)
 		scanf("%d", &i);
 	}
 	i--;
-	dev.device = (char*) malloc(256 * sizeof(char));
-	memcpy(dev.device, ids[i].device, 256);
+	dev.device = (char *)malloc(256 * sizeof(char));
+	memcpy(dev.device, ids[i].device, (256 * sizeof(char)));
 
 #if defined(__APPLE__) && defined(__MACH__)
-    memcpy(dev.config, ids[i].config, sizeof(dev.config));
+	memcpy(dev.config, ids[i].config, sizeof(dev.config));
 
-    dev.pcidev = ids[i].pcidev;
-    dev.ops = ids[i].ops;
-    dev.class = ids[i].class;
-    dev.ven = ids[i].ven;
-    dev.dev = ids[i].dev;
-    dev.sven = ids[i].sven;
-    dev.sdev = ids[i].sdev;
-    dev.idx = ids[i].idx;
+	dev.pcidev = ids[i].pcidev;
+	dev.ops = ids[i].ops;
+	dev.class = ids[i].class;
+	dev.ven = ids[i].ven;
+	dev.dev = ids[i].dev;
+	dev.sven = ids[i].sven;
+	dev.sdev = ids[i].sdev;
+	dev.idx = ids[i].idx;
 #endif
 
 out:
