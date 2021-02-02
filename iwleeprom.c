@@ -750,10 +750,10 @@ int main(int argc, char** argv)
 
 #if !defined(__APPLE__) && !defined(__MACH__)
 	map_device();
-#endif
 
 	if (!offset)
 		die("Can't obtain memory address\n");
+#endif
 
 	if (debug)
 		printf("address: %08x\n", offset);
