@@ -108,6 +108,7 @@ void init_card(void)
         exit(1);
     }
 
+    iopl(3);
     pci_init(pacc);
     pci_scan_bus(pacc);
 #else
