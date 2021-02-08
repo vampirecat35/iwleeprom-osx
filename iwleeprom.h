@@ -33,6 +33,7 @@
 #if defined(__APPLE__) && defined(__MACH__)
 #include <machine/byte_order.h>
 #include <pci/pci.h>
+#include <DirectHW/DirectHW.h>
 
 #ifndef __bswap_16
 #define __bswap_16(x) OSSwapInt16(x)
@@ -58,17 +59,18 @@
 /* PCI R/W macros */
 #if defined(__APPLE__) && defined(__MACH__)
 extern struct pci_access *pacc;
+#endif
 
-#define PCI_IN32(a) pci_read_long(dev->pcidev, (a))
+/*#define PCI_IN32(a) pci_read_long(dev->pcidev, (a))
 #define PCI_IN16(a) pci_read_word(dev->pcidev, (a))
 #define PCI_OUT32(a,v) pci_write_long(dev->pcidev, (a), (v))
 #define PCI_OUT16(a,v) pci_write_word(dev->pcidev, (a), (v))
-#else
+#else*/
 #define PCI_IN32(a)    (*((volatile uint32_t *)(dev->mem + (a))))
 #define PCI_IN16(a)    (*((volatile uint16_t *)(dev->mem + (a))))
 #define PCI_OUT32(a,v) (*((volatile uint32_t *)(dev->mem + (a))) = (v))
 #define PCI_OUT16(a,v) (*((volatile uint16_t *)(dev->mem + (a))) = (v))
-#endif
+/*#endif*/
 
 struct pcidev
 {

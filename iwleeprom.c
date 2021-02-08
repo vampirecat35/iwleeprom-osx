@@ -729,6 +729,14 @@ int main(int argc, char** argv)
 	if (!dev.device) exit(1);
 	check_device(&dev);
 
+#if defined(__APPLE__) && defined(__MACH__)
+    dev.mem = (unsigned char *)map_physical(offset, dev.ops->mmap_size);
+    if (dev.mem == NULL) {
+        perror("map_physical failed");
+        exit(1);
+    }
+#endif
+
 	if (!dev.class)	exit(2);
 	if (dev.idx < 0)
 		die("Selected device not supported\n");
@@ -750,10 +758,10 @@ int main(int argc, char** argv)
 
 #if !defined(__APPLE__) && !defined(__MACH__)
 	map_device();
+#endif
 
 	if (!offset)
 		die("Can't obtain memory address\n");
-#endif
 
 	if (debug)
 		printf("address: %08x\n", offset);
@@ -798,6 +806,12 @@ int main(int argc, char** argv)
 		die("Failed to unlock eeprom!\n");
 
 	release_card();
+
+    if (dev.mem != NULL)
+    {
+        unmap_physical(dev.mem, dev.ops->mmap_size);
+    }
+
 	return 0;
 
 _nodev:
@@ -829,5 +843,11 @@ _nodev:
 	
 	if (dev.ops->eeprom_release)
 		dev.ops->eeprom_release(&dev);
+
+    if (dev.mem != NULL)
+    {
+        unmap_physical(dev.mem, dev.ops->mmap_size);
+    }
+
 	return 0;
 }

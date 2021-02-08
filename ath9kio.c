@@ -823,9 +823,9 @@ static bool ath9k_eeprom_check(struct pcidev *dev)
 	}
 
 	short_eeprom_base = 0;
-	short_eeprom_size = 0;
-	printf("Can't get ath9k eeprom size!\n");
-	return false;
+    short_eeprom_size = ATH9K_EEPROM_SIZE; /* was 0 */
+	/*printf("Can't get ath9k eeprom size!\n");
+	return false;*/
 ssize_ok:
 	printf("ath9k short eeprom base: %d  size: %d\n",
 		short_eeprom_base,
