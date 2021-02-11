@@ -718,8 +718,8 @@ int main(int argc, char** argv)
 					"force using specified IO driver (nodev mode only)\n"
 					"\t-D <level> | --debug <level>\t\t"
 					"set debug level (0-1, default 0)\n"
-                    "\t-4 | --dowholerom"
-                    "do whole 4K ROM"
+                    "\t-4 | --dowholerom\t\t"
+                    "do whole 4K ROM\n"
 					"\t-h | --help\t\t\t\t"
 					"show this info\n", argv[0], argv[0], argv[0]);
 			default:
