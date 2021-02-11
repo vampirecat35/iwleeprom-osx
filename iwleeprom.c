@@ -53,7 +53,8 @@ static struct option long_options[] = {
 	{"debug",     1, NULL, 'D'},
 	{"show",      0, NULL, 's'},
 	{"init",      0, NULL, 'I'},
-	{"patch11n",  0, NULL, 'p'}
+	{"patch11n",  0, NULL, 'p'},
+    {"dowholerom",0, NULL, '4'}
 };
 
 int mem_fd;
@@ -64,6 +65,7 @@ uid_t ruid,euid,suid;
 
 void die(  const char* format, ... ); 
 
+char do4k = 0;
 char	*ifname = NULL,
 		*ofname = NULL;
 bool patch11n = false,
@@ -677,6 +679,9 @@ int main(int argc, char** argv)
 				if (debug)
 					printf("debug level: %s\n", optarg);
 				break;
+            case '4':
+                do4k = 1;
+                break;
 			case 'h':
 				die("EEPROM reader/writer for intel wifi cards\n\n"
 					"Usage:\n"
@@ -713,6 +718,8 @@ int main(int argc, char** argv)
 					"force using specified IO driver (nodev mode only)\n"
 					"\t-D <level> | --debug <level>\t\t"
 					"set debug level (0-1, default 0)\n"
+                    "\t-4 | --dowholerom"
+                    "do whole 4K ROM"
 					"\t-h | --help\t\t\t\t"
 					"show this info\n", argv[0], argv[0], argv[0]);
 			default:

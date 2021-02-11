@@ -61,6 +61,7 @@
 extern struct pci_access *pacc;
 #endif
 
+extern char do4k;
 /*#define PCI_IN32(a) pci_read_long(dev->pcidev, (a))
 #define PCI_IN16(a) pci_read_word(dev->pcidev, (a))
 #define PCI_OUT32(a,v) pci_write_long(dev->pcidev, (a), (v))

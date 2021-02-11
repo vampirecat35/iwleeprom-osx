@@ -806,6 +806,15 @@ static bool ath9k_eeprom_check(struct pcidev *dev)
 
 // reading EEPROM size and setting it's base address
 // thanks to Inv from forum.ixbt.com
+    if (do4k == 1)
+    {
+        if (dev->ops->eeprom_read16(dev, 0, &data) && (ATH9K_EEPROM_SIZE == data)) {
+            short_eeprom_base = 0;
+            short_eeprom_size = ATH9K_EEPROM_SIZE;
+            printf("Reading whole ATH9K ROM\n");
+            goto ssize_ok;
+        }
+    }
 	if (dev->ops->eeprom_read16(dev, 128, &data) && (376 == data)) {
 		short_eeprom_base = 128;
 		short_eeprom_size = 376;
@@ -823,9 +832,9 @@ static bool ath9k_eeprom_check(struct pcidev *dev)
 	}
 
 	short_eeprom_base = 0;
-    short_eeprom_size = ATH9K_EEPROM_SIZE; /* was 0 */
-	/*printf("Can't get ath9k eeprom size!\n");
-	return false;*/
+    short_eeprom_size = 0;
+	printf("Can't get ath9k eeprom size!\n");
+	return false;
 ssize_ok:
 	printf("ath9k short eeprom base: %d  size: %d\n",
 		short_eeprom_base,
