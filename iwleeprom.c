@@ -624,7 +624,7 @@ int main(int argc, char** argv)
 #endif
 
 	while (1) {
-		c = getopt_long(argc, argv, "rwlLF:d:mcni:o:bhpsID:", long_options, NULL);
+		c = getopt_long(argc, argv, "rwlLF:d:mcni4:o:bhpsID:", long_options, NULL);
 		if (c == -1)
 			break;
 		switch(c) {
